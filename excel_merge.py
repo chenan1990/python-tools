@@ -1,6 +1,6 @@
 """
  多个excel，多个sheet数据合并
- 生成的文件名为code-generate...xlsx
+ 生成的文件名为excel-merge...xlsx
 """
 import openpyxl
 from openpyxl import Workbook
@@ -26,7 +26,7 @@ def get_file_path():
         dir_file_path = os.path.join(root_path, dir_file)
         # 该路径是文件并且文件类型为xlsx
         if not os.path.isdir(dir_file_path) and dir_file_path.endswith('.xlsx') and not dir_file_path.startswith(
-                './code'):
+                './excel-merge'):
             file_list.append(dir_file_path)
     return file_list
 
@@ -56,4 +56,4 @@ for i, file_name in enumerate(get_file_path()):
             wbs.append(write_row)
 
 # 保存文件
-wb_write.save('code-generate' + get_current_time() + '.xlsx')
+wb_write.save('excel-merge' + get_current_time() + '.xlsx')
