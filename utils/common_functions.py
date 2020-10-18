@@ -33,7 +33,7 @@ def get_file_path(path, ignore_file):
 
 
 # 获取xlsx的列表数据
-def get_xlsx_data(file_path):
+def get_xlsx_data(file_path, filter_first_row=True):
     new_rows = []
     # 载入xlsx文件
     wb = openpyxl.load_workbook(file_path)
@@ -43,7 +43,7 @@ def get_xlsx_data(file_path):
         # 循环每一行
         for row_i, row in enumerate(ws.rows):
             # 判断表头是否已存在
-            if row_i == 0:
+            if filter_first_row and row_i == 0:
                 if has_title_row:
                     continue
                 else:
@@ -58,7 +58,7 @@ def get_xlsx_data(file_path):
 
 
 # 获取xls的列表数据
-def get_xls_data(file_path):
+def get_xls_data(file_path, filter_first_row=True):
     new_rows = []
     # 打开文件，获取excel文件的workbook（工作簿）对象
     workbook = xlrd.open_workbook(file_path)  # 文件路径
@@ -72,7 +72,7 @@ def get_xls_data(file_path):
         ncols = worksheet.ncols  # 获取该表总列数
         for row_index in range(nrows):
             # 判断表头是否已存在
-            if row_index == 0:
+            if filter_first_row and row_index == 0:
                 if has_title_row:
                     continue
                 else:
