@@ -1,9 +1,13 @@
 """
- 多个excel，多个sheet数据合并
- 生成的文件名为excel-merge...xlsx
+    pip install openpyxl
+    pip install xlrd
+    pip install tqdm
+    多个excel，多个sheet数据合并
+    生成的文件名为excel-merge...xlsx
 """
 import openpyxl
 import xlrd
+from tqdm import tqdm
 from openpyxl import Workbook
 from utils.common_functions import get_file_path, get_current_time
 
@@ -11,21 +15,23 @@ from utils.common_functions import get_file_path, get_current_time
 wb_write = Workbook()
 # 激活 worksheet
 wbs = wb_write.active
+# 写入的excel是有已经存在表头
 has_title_row = False
 
 
 def write_merge_excel():
     files = get_file_path('./merge', 'excel-merge')
-    for file_index, file_path in enumerate(files):
+    pbar = tqdm(files)
+    for file_index, file_path in enumerate(pbar):
         if file_path.endswith('xls'):
-            _get_xls_data(file_index, file_path)
+            _get_xls_data(file_path)
         else:
-            _get_xlsx_data(file_index, file_path)
+            _get_xlsx_data(file_path)
     # 保存文件
     wb_write.save('./merge/excel-merge' + get_current_time() + '.xlsx')
 
 
-def _get_xlsx_data(file_index, file_path):
+def _get_xlsx_data(file_path):
     # 载入xlsx文件
     wb = openpyxl.load_workbook(file_path)
     global has_title_row
@@ -48,7 +54,7 @@ def _get_xlsx_data(file_index, file_path):
             wbs.append(write_row)
 
 
-def _get_xls_data(file_index, file_path):
+def _get_xls_data(file_path):
     # 打开文件，获取excel文件的workbook（工作簿）对象
     workbook = xlrd.open_workbook(file_path)  # 文件路径
     # 获取所有sheet的名字
