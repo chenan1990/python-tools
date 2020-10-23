@@ -62,6 +62,7 @@ def get_xls_data(file_path, filter_first_row=True):
     new_rows = []
     # 打开文件，获取excel文件的workbook（工作簿）对象
     workbook = xlrd.open_workbook(file_path)  # 文件路径
+    workbook = xlrd.open_workbook(file_path, encoding_override="gb2312")  # 文件路径
     # 获取所有sheet的名字
     sheet_names = workbook.sheet_names()
     global has_title_row
